@@ -1,0 +1,51 @@
+아두이노에서
+
+스위치를 붙이면 스마트폰 화면이 분홍색으로 바뀐다.
+
+스위치를 떼면 스마트폰 화면이 하늘색으로 바뀐다.
+이 문제의 아두이노와 프로세싱코드입니다
+
+프로세싱
+import processing.serial.*;
+Serial s;
+int i; 
+void setup() {
+  size(400, 400);
+  s = new Serial(this, "COM3", 9600);
+}
+
+void draw() {
+  if (s.available() > 0) 
+  {
+    i = s.read(); 
+    if (i == '1') 
+    {
+      background(255, 192, 203); 
+    }
+    if (i == '0') 
+    {
+      background(80, 188, 223); 
+    }
+  }
+}
+
+아두이노
+int i = 13;
+
+void setup() {
+  pinMode(i, INPUT_PULLUP);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int switchState = digitalRead(i);
+
+  if (switchState == LOW) {
+    Serial.println('1');
+  } 
+
+  else {
+    Serial.println('0');
+  }
+  delay(1000);
+}
